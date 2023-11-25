@@ -13,6 +13,9 @@
 		87BE6E132B11EF3700E1DFD9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E112B11EF3700E1DFD9 /* Main.storyboard */; };
 		87BE6E152B11EF3900E1DFD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E142B11EF3900E1DFD9 /* Assets.xcassets */; };
 		87BE6E182B11EF3900E1DFD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E162B11EF3900E1DFD9 /* LaunchScreen.storyboard */; };
+		87BE6E242B11FE1000E1DFD9 /* HabitsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */; };
+		87BE6E282B11FFFF00E1DFD9 /* HabitsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */; };
+		87BE6E2A2B12177100E1DFD9 /* HabitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E292B12177100E1DFD9 /* HabitsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		87BE6E142B11EF3900E1DFD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87BE6E172B11EF3900E1DFD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87BE6E192B11EF3900E1DFD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsResult.swift; sourceTree = "<group>"; };
+		87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsListCell.swift; sourceTree = "<group>"; };
+		87BE6E292B12177100E1DFD9 /* HabitsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,50 @@
 		87BE6E0A2B11EF3700E1DFD9 /* Habits */ = {
 			isa = PBXGroup;
 			children = (
+				87BE6E222B11FDD500E1DFD9 /* Models */,
+				87BE6E212B11FD8800E1DFD9 /* Services */,
+				87BE6E1F2B11F9E900E1DFD9 /* Presentation */,
+				87BE6E202B11FA0700E1DFD9 /* Resources */,
 				87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */,
 				87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */,
+			);
+			path = Habits;
+			sourceTree = "<group>";
+		};
+		87BE6E1F2B11F9E900E1DFD9 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
 				87BE6E0F2B11EF3700E1DFD9 /* ViewController.swift */,
 				87BE6E112B11EF3700E1DFD9 /* Main.storyboard */,
+				87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		87BE6E202B11FA0700E1DFD9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				87BE6E142B11EF3900E1DFD9 /* Assets.xcassets */,
 				87BE6E162B11EF3900E1DFD9 /* LaunchScreen.storyboard */,
 				87BE6E192B11EF3900E1DFD9 /* Info.plist */,
 			);
-			path = Habits;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		87BE6E212B11FD8800E1DFD9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				87BE6E292B12177100E1DFD9 /* HabitsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		87BE6E222B11FDD500E1DFD9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +179,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87BE6E2A2B12177100E1DFD9 /* HabitsService.swift in Sources */,
 				87BE6E102B11EF3700E1DFD9 /* ViewController.swift in Sources */,
 				87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */,
+				87BE6E282B11FFFF00E1DFD9 /* HabitsListCell.swift in Sources */,
 				87BE6E0E2B11EF3700E1DFD9 /* SceneDelegate.swift in Sources */,
+				87BE6E242B11FE1000E1DFD9 /* HabitsResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +243,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -262,6 +307,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -290,11 +336,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AMLNY4CPQ6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Habits/Info.plist;
+				INFOPLIST_FILE = Habits/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -318,11 +365,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AMLNY4CPQ6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Habits/Info.plist;
+				INFOPLIST_FILE = Habits/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
