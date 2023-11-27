@@ -8,7 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private let service = HabitsService()
+    private let habitsLoadingService = HabitsLoading()
+    private let habitsService = HabitsService()
     private var list: [Habit] = []
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -45,9 +46,9 @@ private extension ViewController {
     }
     
     func loadHabits() {
-        service.fetchHabits() { [weak self] result in
+        habitsLoadingService.fetchHabits() { [weak self] result in
             guard let self = self else { return }
-           
+            
             switch result {
             case .success(let list):
                 self.list = list
@@ -89,9 +90,31 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             habitsListCell.switchThree.isOn = false
         }
-
+        
+        habitsListCell.switchOne.isOn = list[indexPath.row].bool1
+        habitsListCell.switchOne.addTarget(self, action: #selector(switchOneValueChanged(_:)), for: .valueChanged)
+        
         habitsListCell.label.text = "\(indexPath.row + 1)"
         
         return habitsListCell
+    }
+    
+    @objc func switchOneValueChanged(_ sender: UISwitch) {
+        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        habitsService.handleHabits(id: indexPath.row + 1, bool: true, boolName: Bools.bool1) {[weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.loadHabits()
+                self.tableView.reloadData()
+                print(indexPath.row)
+            case .failure:
+                print("failure HandleHabits")
+            }
+        }
     }
 }

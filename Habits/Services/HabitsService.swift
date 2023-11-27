@@ -2,63 +2,35 @@
 //  HabitsService.swift
 //  Habits
 //
-//  Created by mihail on 25.11.2023.
+//  Created by mihail on 27.11.2023.
 //
 
 import Foundation
 
-final class HabitsService {
-    let session = URLSession.shared
-    
-    func fetchHabits(complition: @escaping (Result<[Habit], Error>) -> Void) {
-        guard let url = URL(string: "https://ceshops.ru:8443/InfoBase7/hs/api/v1") else { return }
-        let request = URLRequest(url: url)
-        
-        let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    complition(.failure(error))
-                }
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    complition(.failure(NetworkError.responseError))
-                }
-                return
-            }
-            
-            if 200..<300 ~= response.statusCode {
-                do {
-                    guard let data = data else {
-                        complition(.failure(NetworkError.emptyData))
-                        return
-                    }
-                    
-                    let habitsList = try JSONDecoder().decode([Habit].self, from: data)
-                    
-                    DispatchQueue.main.async {
-                        complition(.success(habitsList))
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        complition(.failure(error))
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    complition(.failure(NetworkError.statusCodeError(response.statusCode)))
-                }
-            }
-        }
-        task.resume()
-    }
+protocol HabitsServiceProtocol {
+    func handleHabits(id: Int,
+                      bool: Bool,
+                      boolName: Bools,
+                      handler: @escaping (Result<Data, Error>) -> Void)
 }
 
-private enum NetworkError: Error {
-    case urlError
-    case responseError
-    case emptyData
-    case statusCodeError(Int)
+class HabitsService: HabitsServiceProtocol {
+    private let networkClient = NetworkClient()
+    
+    func handleHabits(id: Int,
+                      bool: Bool,
+                      boolName: Bools,
+                      handler: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URL(string: "https://ceshops.ru:8443/InfoBase7/hs/api/v1") else { return }
+        
+        networkClient.fetchPost(url: url,
+                                id: id, bool, boolName: boolName) { result in
+            switch result {
+            case .success(let data):
+                handler(.success(data))
+            case .failure(let error):
+                handler(.failure(error))
+            }
+        }
+    }
 }

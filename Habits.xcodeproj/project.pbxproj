@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8754458C2B148F180056E964 /* HabitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8754458B2B148F180056E964 /* HabitsService.swift */; };
 		87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */; };
 		87BE6E0E2B11EF3700E1DFD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */; };
 		87BE6E102B11EF3700E1DFD9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0F2B11EF3700E1DFD9 /* ViewController.swift */; };
@@ -15,10 +16,12 @@
 		87BE6E182B11EF3900E1DFD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E162B11EF3900E1DFD9 /* LaunchScreen.storyboard */; };
 		87BE6E242B11FE1000E1DFD9 /* HabitsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */; };
 		87BE6E282B11FFFF00E1DFD9 /* HabitsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */; };
-		87BE6E2A2B12177100E1DFD9 /* HabitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E292B12177100E1DFD9 /* HabitsService.swift */; };
+		87BE6E2A2B12177100E1DFD9 /* HabitsLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E292B12177100E1DFD9 /* HabitsLoading.swift */; };
+		87BE6E2C2B122E9400E1DFD9 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E2B2B122E9400E1DFD9 /* NetworkClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8754458B2B148F180056E964 /* HabitsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsService.swift; sourceTree = "<group>"; };
 		87BE6E082B11EF3700E1DFD9 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -29,7 +32,8 @@
 		87BE6E192B11EF3900E1DFD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsResult.swift; sourceTree = "<group>"; };
 		87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsListCell.swift; sourceTree = "<group>"; };
-		87BE6E292B12177100E1DFD9 /* HabitsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsService.swift; sourceTree = "<group>"; };
+		87BE6E292B12177100E1DFD9 /* HabitsLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsLoading.swift; sourceTree = "<group>"; };
+		87BE6E2B2B122E9400E1DFD9 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +99,9 @@
 		87BE6E212B11FD8800E1DFD9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				87BE6E292B12177100E1DFD9 /* HabitsService.swift */,
+				87BE6E292B12177100E1DFD9 /* HabitsLoading.swift */,
+				87BE6E2B2B122E9400E1DFD9 /* NetworkClient.swift */,
+				8754458B2B148F180056E964 /* HabitsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -179,10 +185,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87BE6E2A2B12177100E1DFD9 /* HabitsService.swift in Sources */,
+				87BE6E2A2B12177100E1DFD9 /* HabitsLoading.swift in Sources */,
 				87BE6E102B11EF3700E1DFD9 /* ViewController.swift in Sources */,
+				8754458C2B148F180056E964 /* HabitsService.swift in Sources */,
 				87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */,
 				87BE6E282B11FFFF00E1DFD9 /* HabitsListCell.swift in Sources */,
+				87BE6E2C2B122E9400E1DFD9 /* NetworkClient.swift in Sources */,
 				87BE6E0E2B11EF3700E1DFD9 /* SceneDelegate.swift in Sources */,
 				87BE6E242B11FE1000E1DFD9 /* HabitsResult.swift in Sources */,
 			);

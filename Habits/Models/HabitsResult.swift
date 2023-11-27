@@ -11,8 +11,8 @@ struct Habit: Codable {
     let id: Int
     let name: String
     let date: String
-    let bool1: Bool
-    let bool2: Bool
-    let bool3: Bool
+    var bool1: Bool
+    var bool2: Bool
+    var bool3: Bool
 }
 
