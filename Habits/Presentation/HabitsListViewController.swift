@@ -8,6 +8,7 @@
 import UIKit
 
 class HabitsListViewController: UIViewController {
+
     //MARK: - Private parametrs
     private let habitsLoadingService = HabitsLoading()
     private let habitsService = HabitsService()
@@ -23,9 +24,13 @@ class HabitsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray
+        tableView.rowHeight = 100
+        tableView.contentInset = UIEdgeInsets.zero
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         setupTableView()
         addContraints()
         loadHabits()
+        
     }
 }
 
@@ -152,7 +157,17 @@ extension HabitsListViewController: UITableViewDelegate, UITableViewDataSource {
         habitsListCell.switchTwo.addTarget(self, action: #selector(switchTwoValueChanged), for: .valueChanged)
         habitsListCell.switchThree.addTarget(self, action: #selector(switchThreeValueChanged), for: .valueChanged)
         
-        habitsListCell.label.text = "\(indexPath.row + 1)"
+        habitsListCell.idLabel.text = "\(indexPath.row + 1)"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        let date = dateFormatter.date(from: list[indexPath.row].date)
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "EEEE, d MMMM yyyy"
+        
+        let formattedDate = dateFormatter.string(for: date)
+        
+        habitsListCell.dateLabel.text = formattedDate
         
         return habitsListCell
     }

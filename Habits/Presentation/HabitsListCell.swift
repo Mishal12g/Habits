@@ -10,13 +10,22 @@ import UIKit
 class HabitsListCell: UITableViewCell {
     static let identifier = "HabitsListCell"
     
-    let label: UILabel = {
+    let idLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "dsadasd"
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .black
         return label
+    }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.textAlignment = .left
+        return label
+        
     }()
     
     let switchOne: UISwitch = {
@@ -38,29 +47,45 @@ class HabitsListCell: UITableViewCell {
     }()
     
     override func layoutSubviews() {
-          super.layoutSubviews()
-        contentView.addSubview(label)
+        super.layoutSubviews()
+        contentView.addSubview(idLabel)
+        contentView.addSubview(dateLabel)
         contentView.addSubview(switchOne)
         contentView.addSubview(switchTwo)
         contentView.addSubview(switchThree)
+        
         addConstraints()
-      }
+    }
+    
 }
 
 private extension HabitsListCell {
     func addConstraints() {
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
-            switchOne.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
-            switchOne.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            idLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            idLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            idLabel.widthAnchor.constraint(equalToConstant: 40),
+        ])
+        
+        NSLayoutConstraint.activate([
+            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            dateLabel.leadingAnchor.constraint(equalTo: idLabel.trailingAnchor, constant: 10),
+            
+        ])
+        
+        NSLayoutConstraint.activate([
+            switchOne.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
+            switchOne.leadingAnchor.constraint(equalTo: idLabel.trailingAnchor, constant: 10),
+            switchOne.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0/3.0, constant: -idLabel.bounds.width ),
+            switchTwo.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
             switchTwo.leadingAnchor.constraint(equalTo: switchOne.trailingAnchor, constant: 10),
-            switchTwo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            switchTwo.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0/3.0, constant: -idLabel.bounds.width  ),
+            switchThree.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
             switchThree.leadingAnchor.constraint(equalTo: switchTwo.trailingAnchor, constant: 10),
-            switchThree.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            switchThree.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0/3.0, constant: -idLabel.bounds.width),
         ])
     }
 }
