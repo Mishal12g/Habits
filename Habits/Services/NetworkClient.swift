@@ -9,7 +9,7 @@ import Foundation
 
 protocol NetworkRouting {
     func fetchGet(url: URL, completion: @escaping (Result<Data, Error>) -> Void)
-    func fetchPost(url: URL,
+    func fetch(url: URL,
                    id: Int,
                    _ bool: Bool,
                    boolName: Bools,
@@ -18,7 +18,7 @@ protocol NetworkRouting {
 }
 
 final class NetworkClient: NetworkRouting {
-    func fetchPost(url: URL, id: Int, _ bool: Bool, boolName: Bools, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(url: URL, id: Int, _ bool: Bool, boolName: Bools, completion: @escaping (Result<Data, Error>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

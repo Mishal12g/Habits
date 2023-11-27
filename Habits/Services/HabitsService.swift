@@ -8,7 +8,7 @@
 import Foundation
 
 protocol HabitsServiceProtocol {
-    func handleHabits(id: Int,
+    func changeSwitch(id: Int,
                       bool: Bool,
                       boolName: Bools,
                       handler: @escaping (Result<Data, Error>) -> Void)
@@ -17,14 +17,14 @@ protocol HabitsServiceProtocol {
 class HabitsService: HabitsServiceProtocol {
     private let networkClient = NetworkClient()
     
-    func handleHabits(id: Int,
+    func changeSwitch(id: Int,
                       bool: Bool,
                       boolName: Bools,
                       handler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: "https://ceshops.ru:8443/InfoBase7/hs/api/v1") else { return }
         
-        networkClient.fetchPost(url: url,
-                                id: id, bool, boolName: boolName) { result in
+        networkClient.fetch(url: url,
+                            id: id, bool, boolName: boolName) { result in
             switch result {
             case .success(let data):
                 handler(.success(data))

@@ -7,7 +7,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HabitsListViewController: UIViewController {
+    //MARK: - Private parametrs
     private let habitsLoadingService = HabitsLoading()
     private let habitsService = HabitsService()
     private var list: [Habit] = []
@@ -18,6 +19,7 @@ class ViewController: UIViewController {
         return tableView
     }()
     
+    //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray
@@ -28,7 +30,7 @@ class ViewController: UIViewController {
 }
 
 //MARK: - for methods
-private extension ViewController {
+private extension HabitsListViewController {
     func addContraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -58,10 +60,65 @@ private extension ViewController {
             }
         }
     }
+    
+    func makeRequest(bool: Bool, boolName: Bools, indexPath: IndexPath) {
+        habitsService.changeSwitch(id: indexPath.row + 1, bool: bool, boolName: boolName) {[weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.loadHabits()
+                self.tableView.reloadData()
+                print(indexPath.row)
+            case .failure:
+                print("failure HandleHabits")
+            }
+        }
+    }
+    
+    //MARK: - Actions Methods
+    @objc private func switchOneValueChanged(_ sender: UISwitch) {
+        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        if cell.switchOne.isOn {
+            makeRequest(bool: true, boolName: Bools.bool1, indexPath: indexPath)
+            
+        } else {
+            makeRequest(bool: false, boolName: Bools.bool1, indexPath: indexPath)
+        }
+    }
+    
+    @objc private func switchTwoValueChanged(_ sender: UISwitch) {
+        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        if cell.switchTwo.isOn {
+            makeRequest(bool: true, boolName: Bools.bool2, indexPath: indexPath)
+            
+        } else {
+            makeRequest(bool: false, boolName: Bools.bool2, indexPath: indexPath)
+        }
+    }
+    
+    @objc private func switchThreeValueChanged(_ sender: UISwitch) {
+        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        if cell.switchThree.isOn {
+            makeRequest(bool: true, boolName: Bools.bool3, indexPath: indexPath)
+            
+        } else {
+            makeRequest(bool: false, boolName: Bools.bool3, indexPath: indexPath)
+        }
+    }
 }
 
 //MARK: - Delegats
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension HabitsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         list.count
     }
@@ -91,30 +148,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             habitsListCell.switchThree.isOn = false
         }
         
-        habitsListCell.switchOne.isOn = list[indexPath.row].bool1
-        habitsListCell.switchOne.addTarget(self, action: #selector(switchOneValueChanged(_:)), for: .valueChanged)
+        habitsListCell.switchOne.addTarget(self, action: #selector(switchOneValueChanged), for: .valueChanged)
+        habitsListCell.switchTwo.addTarget(self, action: #selector(switchTwoValueChanged), for: .valueChanged)
+        habitsListCell.switchThree.addTarget(self, action: #selector(switchThreeValueChanged), for: .valueChanged)
         
         habitsListCell.label.text = "\(indexPath.row + 1)"
         
         return habitsListCell
-    }
-    
-    @objc func switchOneValueChanged(_ sender: UISwitch) {
-        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        habitsService.handleHabits(id: indexPath.row + 1, bool: true, boolName: Bools.bool1) {[weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success:
-                self.loadHabits()
-                self.tableView.reloadData()
-                print(indexPath.row)
-            case .failure:
-                print("failure HandleHabits")
-            }
-        }
     }
 }

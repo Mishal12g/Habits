@@ -10,7 +10,7 @@
 		8754458C2B148F180056E964 /* HabitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8754458B2B148F180056E964 /* HabitsService.swift */; };
 		87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */; };
 		87BE6E0E2B11EF3700E1DFD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */; };
-		87BE6E102B11EF3700E1DFD9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0F2B11EF3700E1DFD9 /* ViewController.swift */; };
+		87BE6E102B11EF3700E1DFD9 /* HabitsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0F2B11EF3700E1DFD9 /* HabitsListViewController.swift */; };
 		87BE6E132B11EF3700E1DFD9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E112B11EF3700E1DFD9 /* Main.storyboard */; };
 		87BE6E152B11EF3900E1DFD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E142B11EF3900E1DFD9 /* Assets.xcassets */; };
 		87BE6E182B11EF3900E1DFD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E162B11EF3900E1DFD9 /* LaunchScreen.storyboard */; };
@@ -25,7 +25,7 @@
 		87BE6E082B11EF3700E1DFD9 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		87BE6E0F2B11EF3700E1DFD9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		87BE6E0F2B11EF3700E1DFD9 /* HabitsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsListViewController.swift; sourceTree = "<group>"; };
 		87BE6E122B11EF3700E1DFD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		87BE6E142B11EF3900E1DFD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87BE6E172B11EF3900E1DFD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 		87BE6E1F2B11F9E900E1DFD9 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				87BE6E0F2B11EF3700E1DFD9 /* ViewController.swift */,
+				87BE6E0F2B11EF3700E1DFD9 /* HabitsListViewController.swift */,
 				87BE6E112B11EF3700E1DFD9 /* Main.storyboard */,
 				87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */,
 			);
@@ -186,7 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87BE6E2A2B12177100E1DFD9 /* HabitsLoading.swift in Sources */,
-				87BE6E102B11EF3700E1DFD9 /* ViewController.swift in Sources */,
+				87BE6E102B11EF3700E1DFD9 /* HabitsListViewController.swift in Sources */,
 				8754458C2B148F180056E964 /* HabitsService.swift in Sources */,
 				87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */,
 				87BE6E282B11FFFF00E1DFD9 /* HabitsListCell.swift in Sources */,
