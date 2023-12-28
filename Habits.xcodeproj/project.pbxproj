@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87268F892B14DFD300FD6989 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 87268F882B14DFD300FD6989 /* ProgressHUD */; };
 		8754458C2B148F180056E964 /* HabitsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8754458B2B148F180056E964 /* HabitsService.swift */; };
+		875445912B14DBAC0056E964 /* UIProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875445902B14DBAC0056E964 /* UIProgressHUD.swift */; };
 		87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */; };
 		87BE6E0E2B11EF3700E1DFD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */; };
 		87BE6E102B11EF3700E1DFD9 /* HabitsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E0F2B11EF3700E1DFD9 /* HabitsListViewController.swift */; };
@@ -16,12 +18,12 @@
 		87BE6E182B11EF3900E1DFD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87BE6E162B11EF3900E1DFD9 /* LaunchScreen.storyboard */; };
 		87BE6E242B11FE1000E1DFD9 /* HabitsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */; };
 		87BE6E282B11FFFF00E1DFD9 /* HabitsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */; };
-		87BE6E2A2B12177100E1DFD9 /* HabitsLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E292B12177100E1DFD9 /* HabitsLoading.swift */; };
 		87BE6E2C2B122E9400E1DFD9 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE6E2B2B122E9400E1DFD9 /* NetworkClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8754458B2B148F180056E964 /* HabitsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsService.swift; sourceTree = "<group>"; };
+		875445902B14DBAC0056E964 /* UIProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProgressHUD.swift; sourceTree = "<group>"; };
 		87BE6E082B11EF3700E1DFD9 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87BE6E0B2B11EF3700E1DFD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87BE6E0D2B11EF3700E1DFD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,7 +34,6 @@
 		87BE6E192B11EF3900E1DFD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87BE6E232B11FE1000E1DFD9 /* HabitsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsResult.swift; sourceTree = "<group>"; };
 		87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsListCell.swift; sourceTree = "<group>"; };
-		87BE6E292B12177100E1DFD9 /* HabitsLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsLoading.swift; sourceTree = "<group>"; };
 		87BE6E2B2B122E9400E1DFD9 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87268F892B14DFD300FD6989 /* ProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +84,7 @@
 				87BE6E0F2B11EF3700E1DFD9 /* HabitsListViewController.swift */,
 				87BE6E112B11EF3700E1DFD9 /* Main.storyboard */,
 				87BE6E272B11FFFF00E1DFD9 /* HabitsListCell.swift */,
+				875445902B14DBAC0056E964 /* UIProgressHUD.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -99,7 +102,6 @@
 		87BE6E212B11FD8800E1DFD9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				87BE6E292B12177100E1DFD9 /* HabitsLoading.swift */,
 				87BE6E2B2B122E9400E1DFD9 /* NetworkClient.swift */,
 				8754458B2B148F180056E964 /* HabitsService.swift */,
 			);
@@ -130,6 +132,9 @@
 			dependencies = (
 			);
 			name = Habits;
+			packageProductDependencies = (
+				87268F882B14DFD300FD6989 /* ProgressHUD */,
+			);
 			productName = Habits;
 			productReference = 87BE6E082B11EF3700E1DFD9 /* Habits.app */;
 			productType = "com.apple.product-type.application";
@@ -158,6 +163,9 @@
 				Base,
 			);
 			mainGroup = 87BE6DFF2B11EF3700E1DFD9;
+			packageReferences = (
+				87268F872B14DFD300FD6989 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
+			);
 			productRefGroup = 87BE6E092B11EF3700E1DFD9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -185,7 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87BE6E2A2B12177100E1DFD9 /* HabitsLoading.swift in Sources */,
+				875445912B14DBAC0056E964 /* UIProgressHUD.swift in Sources */,
 				87BE6E102B11EF3700E1DFD9 /* HabitsListViewController.swift in Sources */,
 				8754458C2B148F180056E964 /* HabitsService.swift in Sources */,
 				87BE6E0C2B11EF3700E1DFD9 /* AppDelegate.swift in Sources */,
@@ -419,6 +427,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		87268F872B14DFD300FD6989 /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/relatedcode/ProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		87268F882B14DFD300FD6989 /* ProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87268F872B14DFD300FD6989 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
+			productName = ProgressHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 87BE6E002B11EF3700E1DFD9 /* Project object */;
 }

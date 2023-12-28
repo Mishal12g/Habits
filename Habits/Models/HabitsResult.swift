@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Habit: Codable {
+struct HabitResult: Codable {
     let id: Int
     let name: String
     let date: String
@@ -15,4 +15,3 @@ struct Habit: Codable {
     var bool2: Bool
     var bool3: Bool
 }
-

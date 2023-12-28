@@ -15,6 +15,7 @@ class HabitsListCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .black
+        
         return label
     }()
     
@@ -24,35 +25,50 @@ class HabitsListCell: UITableViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .black
         label.textAlignment = .left
-        return label
         
+        return label
     }()
     
-    let switchOne: UISwitch = {
-        let uiSwitch = UISwitch()
-        uiSwitch.translatesAutoresizingMaskIntoConstraints = false
-        return uiSwitch
+    let buttonOne: UIButton = {
+        let configuration = UIImage.SymbolConfiguration(pointSize: 40)
+        let image = UIImage(systemName: "circle.square", withConfiguration: configuration)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        
+        return button
     }()
     
-    let switchTwo: UISwitch = {
-        let uiSwitch = UISwitch()
-        uiSwitch.translatesAutoresizingMaskIntoConstraints = false
-        return uiSwitch
+    let buttonTwo: UIButton = {
+        let configuration = UIImage.SymbolConfiguration(pointSize: 40)
+        let image = UIImage(systemName: "circle.square", withConfiguration: configuration)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        
+        return button
     }()
     
-    let switchThree: UISwitch = {
-        let uiSwitch = UISwitch()
-        uiSwitch.translatesAutoresizingMaskIntoConstraints = false
-        return uiSwitch
+    let buttonThree: UIButton = {
+        let configuration = UIImage.SymbolConfiguration(pointSize: 40)
+        let image = UIImage(systemName: "circle.square", withConfiguration: configuration)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+
+        return button
     }()
     
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.addSubview(idLabel)
         contentView.addSubview(dateLabel)
-        contentView.addSubview(switchOne)
-        contentView.addSubview(switchTwo)
-        contentView.addSubview(switchThree)
+        contentView.addSubview(buttonOne)
+        contentView.addSubview(buttonTwo)
+        contentView.addSubview(buttonThree)
         
         addConstraints()
     }
@@ -77,15 +93,14 @@ private extension HabitsListCell {
         ])
         
         NSLayoutConstraint.activate([
-            switchOne.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
-            switchOne.leadingAnchor.constraint(equalTo: idLabel.trailingAnchor, constant: 10),
-            switchOne.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0/3.0, constant: -idLabel.bounds.width ),
-            switchTwo.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
-            switchTwo.leadingAnchor.constraint(equalTo: switchOne.trailingAnchor, constant: 10),
-            switchTwo.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0/3.0, constant: -idLabel.bounds.width  ),
-            switchThree.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
-            switchThree.leadingAnchor.constraint(equalTo: switchTwo.trailingAnchor, constant: 10),
-            switchThree.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0/3.0, constant: -idLabel.bounds.width),
+            buttonOne.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
+            buttonOne.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -100),
+            
+            buttonTwo.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
+            buttonTwo.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+            
+            buttonThree.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
+            buttonThree.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 100),
         ])
     }
 }

@@ -1,18 +1,11 @@
-//
-//  ViewController.swift
-//  Habits
-//
-//  Created by mihail on 25.11.2023.
-//
-
 import UIKit
+import ProgressHUD
 
 class HabitsListViewController: UIViewController {
-
+    
     //MARK: - Private parametrs
-    private let habitsLoadingService = HabitsLoading()
     private let habitsService = HabitsService()
-    private var list: [Habit] = []
+    private var list: [HabitResult] = []
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,8 +16,8 @@ class HabitsListViewController: UIViewController {
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIProgressHUD.show()
         view.backgroundColor = .gray
-        tableView.rowHeight = 100
         tableView.contentInset = UIEdgeInsets.zero
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         setupTableView()
@@ -53,12 +46,13 @@ private extension HabitsListViewController {
     }
     
     func loadHabits() {
-        habitsLoadingService.fetchHabits() { [weak self] result in
+        habitsService.fetchHabits() { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let list):
                 self.list = list
+                UIProgressHUD.dismiss()
                 tableView.reloadData()
             case .failure(let error):
                 print(error)
@@ -67,14 +61,12 @@ private extension HabitsListViewController {
     }
     
     func makeRequest(bool: Bool, boolName: Bools, indexPath: IndexPath) {
-        habitsService.changeSwitch(id: indexPath.row + 1, bool: bool, boolName: boolName) {[weak self] result in
-            guard let self = self else { return }
-            
+        habitsService.changeCheckmark(id: indexPath.row + 1, bool: bool, boolName: boolName) {[weak self] result in
+            guard self != nil else { return }
+            UIProgressHUD.show()
             switch result {
             case .success:
-                self.loadHabits()
-                self.tableView.reloadData()
-                print(indexPath.row)
+                UIProgressHUD.dismiss()
             case .failure:
                 print("failure HandleHabits")
             }
@@ -82,42 +74,29 @@ private extension HabitsListViewController {
     }
     
     //MARK: - Actions Methods
-    @objc private func switchOneValueChanged(_ sender: UISwitch) {
-        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
-            return
+    private func configCell(cell: HabitsListCell, indexPath: IndexPath) {
+        setImage(list[indexPath.row].bool1, button: cell.buttonOne)
+        setImage(list[indexPath.row].bool2, button: cell.buttonTwo)
+        setImage(list[indexPath.row].bool3, button: cell.buttonThree)
+        let action = UIAction() { [weak self] _ in
+            guard let self = self else { return }
+//            makeRequest(bool: <#T##Bool#>, boolName: <#T##Bools#>, indexPath: <#T##IndexPath#>)
         }
         
-        if cell.switchOne.isOn {
-            makeRequest(bool: true, boolName: Bools.bool1, indexPath: indexPath)
-            
-        } else {
-            makeRequest(bool: false, boolName: Bools.bool1, indexPath: indexPath)
-        }
+        cell.buttonOne.addAction(action, for: .touchUpInside)
+        //        cell.buttonOne.addTarget(nil, action: #selector(buttonAction), for: .touchUpInside)
+        //        cell.buttonTwo.addTarget(nil, action: #selector(buttonAction), for: .touchUpInside)
+        //        cell.buttonThree.addTarget(nil, action: #selector(buttonAction), for: .touchUpInside)
     }
     
-    @objc private func switchTwoValueChanged(_ sender: UISwitch) {
-        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        if cell.switchTwo.isOn {
-            makeRequest(bool: true, boolName: Bools.bool2, indexPath: indexPath)
-            
+    private func setImage(_ bool: Bool, button: UIButton) {
+        let configuration = UIImage.SymbolConfiguration(pointSize: 40)
+        if bool {
+            button.setImage(UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration), for: .normal)
+            button.tintColor = .systemGreen
         } else {
-            makeRequest(bool: false, boolName: Bools.bool2, indexPath: indexPath)
-        }
-    }
-    
-    @objc private func switchThreeValueChanged(_ sender: UISwitch) {
-        guard let cell = sender.superview?.superview as? HabitsListCell, let indexPath = tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        if cell.switchThree.isOn {
-            makeRequest(bool: true, boolName: Bools.bool3, indexPath: indexPath)
-            
-        } else {
-            makeRequest(bool: false, boolName: Bools.bool3, indexPath: indexPath)
+            button.setImage(UIImage(systemName: "circle", withConfiguration: configuration), for: .normal)
+            button.tintColor = .systemBlue
         }
     }
 }
@@ -134,28 +113,29 @@ extension HabitsListViewController: UITableViewDelegate, UITableViewDataSource {
         guard let habitsListCell = cell as? HabitsListCell else {
             return UITableViewCell()
         }
+        configCell(cell: habitsListCell, indexPath: indexPath)
         
-        if list[indexPath.row].bool1 == true {
-            habitsListCell.switchOne.isOn = true
-        } else {
-            habitsListCell.switchOne.isOn = false
-        }
+        //        if list[indexPath.row].bool1 == true {
+        //            habitsListCell.switchOne.isOn = true
+        //        } else {
+        //            habitsListCell.switchOne.isOn = false
+        //        }
+        //
+        //        if list[indexPath.row].bool2 == true {
+        //            habitsListCell.switchTwo.isOn = true
+        //        } else {
+        //            habitsListCell.switchTwo.isOn = false
+        //        }
+        //
+        //        if list[indexPath.row].bool3 == true {
+        //            habitsListCell.switchThree.isOn = true
+        //        } else {
+        //            habitsListCell.switchThree.isOn = false
+        //        }
         
-        if list[indexPath.row].bool2 == true {
-            habitsListCell.switchTwo.isOn = true
-        } else {
-            habitsListCell.switchTwo.isOn = false
-        }
-        
-        if list[indexPath.row].bool3 == true {
-            habitsListCell.switchThree.isOn = true
-        } else {
-            habitsListCell.switchThree.isOn = false
-        }
-        
-        habitsListCell.switchOne.addTarget(self, action: #selector(switchOneValueChanged), for: .valueChanged)
-        habitsListCell.switchTwo.addTarget(self, action: #selector(switchTwoValueChanged), for: .valueChanged)
-        habitsListCell.switchThree.addTarget(self, action: #selector(switchThreeValueChanged), for: .valueChanged)
+//                habitsListCell.switchOne.addTarget(self, action: #selector(switchOneValueChanged), for: .valueChanged)
+        //        habitsListCell.switchTwo.addTarget(self, action: #selector(switchTwoValueChanged), for: .valueChanged)
+        //        habitsListCell.switchThree.addTarget(self, action: #selector(switchThreeValueChanged), for: .valueChanged)
         
         habitsListCell.idLabel.text = "\(indexPath.row + 1)"
         
@@ -170,5 +150,9 @@ extension HabitsListViewController: UITableViewDelegate, UITableViewDataSource {
         habitsListCell.dateLabel.text = formattedDate
         
         return habitsListCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
 }
