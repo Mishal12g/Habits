@@ -1,10 +1,3 @@
-//
-//  HabitsService.swift
-//  Habits
-//
-//  Created by mihail on 27.11.2023.
-//
-
 import Foundation
 
 protocol HabitsServiceProtocol {
@@ -67,7 +60,6 @@ class HabitsService: HabitsServiceProtocol {
                                                bool2: b2,
                                                bool3: b3)
                     self.habits[index] = newHabit
-                    print(self.habits[index], "lfaslfasflfls¿")
                     task = nil
                     hendler()
                 }

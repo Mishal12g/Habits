@@ -2,13 +2,15 @@ import UIKit
 import ProgressHUD
 
 class HabitsListViewController: UIViewController {
+    //MARK: - Static prarametrs
+    static let dateFormatter = DateFormatter()
     
     //MARK: - Private parametrs
     private let habitsService = HabitsService()
     private var habits: [HabitResult] = []
     private var habitsServiceObserver: NSObjectProtocol?
-    static let dateFormatter = DateFormatter()
-    let tableView: UITableView = {
+    
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -20,8 +22,7 @@ class HabitsListViewController: UIViewController {
         super.viewDidLoad()
         UIProgressHUD.show()
         view.backgroundColor = .gray
-        tableView.contentInset = UIEdgeInsets.zero
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        
         setupTableView()
         addContraints()
         habitsService.fetchHabits()
@@ -35,14 +36,15 @@ class HabitsListViewController: UIViewController {
 }
 
 //MARK: - for methods
-private extension HabitsListViewController {
-    func updateHabitsViewTable() {
+extension HabitsListViewController {
+    //MARK: - Privates methods
+    private func updateHabitsViewTable() {
         UIProgressHUD.dismiss()
         habits = habitsService.habits
         tableView.reloadData()
     }
     
-    func addContraints() {
+    private func addContraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -51,40 +53,30 @@ private extension HabitsListViewController {
         ])
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         view.addSubview(tableView)
+        tableView.contentInset = UIEdgeInsets.zero
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(HabitsListCell.self, forCellReuseIdentifier: HabitsListCell.identifier)
     }
     
-    //    func makeRequest(bool: Bool, boolName: Bools, indexPath: IndexPath) {
-    //        habitsService.changeCheckmark(id: indexPath.row + 1, bool: bool, boolName: boolName) {[weak self] result in
-    //            guard self != nil else { return }
-    //            UIProgressHUD.show()
-    //            switch result {
-    //            case .success:
-    //                UIProgressHUD.dismiss()
-    //            case .failure:
-    //                print("failure HandleHabits")
-    //            }
-    //        }
-    //    }
-    
-    //MARK: - Actions Methods
     private func configCell(cell: HabitsListCell) {
         guard let index = tableView.indexPath(for: cell) else { return }
-        setImage(habits[index.row].bool1, button: cell.buttonOne)
-        setImage(habits[index.row].bool2, button: cell.buttonTwo)
-        setImage(habits[index.row].bool3, button: cell.buttonThree)
+        setImage(habits[index.row].bool1, boolsName: .bool1, button: cell.buttonOne)
+        setImage(habits[index.row].bool2, boolsName: .bool2, button: cell.buttonTwo)
+        setImage(habits[index.row].bool3, boolsName: .bool3, button: cell.buttonThree)
+        cell.selectionStyle = .none
         cell.delegate = self
     }
     
-    private func setImage(_ bool: Bool, button: UIButton) {
+    private func setImage(_ bool: Bool, boolsName: Bools, button: UIButton) {
+        
         let configuration = UIImage.SymbolConfiguration(pointSize: 40)
         if bool {
             button.setImage(UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration), for: .normal)
-            button.tintColor = .systemGreen
+            button.tintColor = boolsName == .bool1 ? .systemGreen : .systemRed
         } else {
             button.setImage(UIImage(systemName: "circle", withConfiguration: configuration), for: .normal)
             button.tintColor = .systemBlue
@@ -94,8 +86,6 @@ private extension HabitsListViewController {
 
 //MARK: - HabitlistCell delegate
 extension HabitsListViewController: HabitsListCellDelegate {
-    
-    
     func habitsListCellDidTapButtonOne(cell: HabitsListCell) {
         guard let index = tableView.indexPath(for: cell) else { return }
         
@@ -118,7 +108,6 @@ extension HabitsListViewController: HabitsListCellDelegate {
         guard let index = tableView.indexPath(for: cell) else { return }
         let model: ActionModel?
         switch boolName {
-            
         case .bool1:
             model = ActionModel(id: index.row + 1, bool1: !bool)
         case .bool2:
