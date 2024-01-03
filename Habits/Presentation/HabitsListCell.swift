@@ -7,8 +7,19 @@
 
 import UIKit
 
-class HabitsListCell: UITableViewCell {
+protocol HabitsListCellDelegate: AnyObject {
+    func habitsListCellDidTapButtonOne(cell: HabitsListCell)
+    func habitsListCellDidTapButtonTwo(cell: HabitsListCell)
+    func habitsListCellDidTapButtonThree(cell: HabitsListCell)
+}
+
+final class HabitsListCell: UITableViewCell {
     static let identifier = "HabitsListCell"
+    weak var delegate: HabitsListCellDelegate? {
+        didSet {
+            addAcions()
+        }
+    }
     
     let idLabel: UILabel = {
         let label = UILabel()
@@ -58,7 +69,7 @@ class HabitsListCell: UITableViewCell {
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
-
+        
         return button
     }()
     
@@ -76,6 +87,24 @@ class HabitsListCell: UITableViewCell {
 }
 
 private extension HabitsListCell {
+    
+    func addAcions() {
+        let actionOne = UIAction() { _ in
+            self.delegate?.habitsListCellDidTapButtonOne(cell: self)
+        }
+        
+        let actionTwo = UIAction() { _ in
+            self.delegate?.habitsListCellDidTapButtonTwo(cell: self)
+        }
+        
+        let actionThree = UIAction() { _ in
+            self.delegate?.habitsListCellDidTapButtonThree(cell: self)
+        }
+        
+        self.buttonOne.addAction(actionOne, for: .touchUpInside)
+        self.buttonTwo.addAction(actionTwo, for: .touchUpInside)
+        self.buttonThree.addAction(actionThree, for: .touchUpInside)
+    }
     func addConstraints() {
         NSLayoutConstraint.activate([
         ])

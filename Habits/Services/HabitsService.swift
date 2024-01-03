@@ -8,48 +8,76 @@
 import Foundation
 
 protocol HabitsServiceProtocol {
-    func fetchHabits(handler: @escaping (Result<[HabitResult], Error>) -> Void)
-    func changeCheckmark(id: Int,
-                      bool: Bool,
-                      boolName: Bools,
-                      handler: @escaping (Result<Data, Error>) -> Void)
+    func fetchHabits()
+    func changeCheckmark(model: ActionModel,
+                         boolName: Bools,
+                         hendler: @escaping () -> Void)
 }
 
 class HabitsService: HabitsServiceProtocol {
-    private let networkClient = NetworkClient()
+    static let didChangeNotification = Notification.Name(rawValue: "HabitsListDidChange")
     
-    func fetchHabits(handler: @escaping (Result<[HabitResult], Error>) -> Void) {
+    private(set) var habits = [HabitResult]()
+    private let session = URLSession.shared
+    private var task: URLSessionDataTask? = nil
+    func fetchHabits() {
         guard let url = URL(string: "https://ceshops.ru:8443/InfoBase7/hs/api/v1") else { return }
         
-        networkClient.fetchGet(url: url) { result in
+        let request = URLRequest(url: url)
+        
+        let task = session.objectTask(for: request) { [weak self] (result: Result<[HabitResult], Error>) in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(let data):
-                do {
-                    let habitsList = try JSONDecoder().decode([HabitResult].self, from: data)
-                    handler(.success(habitsList))
-                } catch {
-                    handler(.failure(NetworkError.emptyData))
-                }
+            case .success(let habits):
+                self.habits = habits
+                NotificationCenter.default.post(name: HabitsService.didChangeNotification,
+                                                object: self,
+                                                userInfo: ["Habits" : self.habits])
+                
             case .failure(let error):
-                handler(.failure(error))
+                print(error)
             }
         }
+        
+        task.resume()
     }
     
-    func changeCheckmark(id: Int,
-                      bool: Bool,
-                      boolName: Bools,
-                      handler: @escaping (Result<Data, Error>) -> Void) {
+    func changeCheckmark(model: ActionModel,
+                         boolName: Bools,
+                         hendler: @escaping () -> Void) {
         guard let url = URL(string: "https://ceshops.ru:8443/InfoBase7/hs/api/v1") else { return }
+        guard task == nil else { return }
         
-        networkClient.fetch(url: url,
-                            id: id, bool, boolName: boolName) { result in
+        task = session.objectTask(for: url, with: model) { [weak self] (result: Error?) in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(let data):
-                handler(.success(data))
-            case .failure(let error):
-                handler(.failure(error))
+            case .none:
+                if let index = self.habits.firstIndex(where: { $0.id == model.id}) {
+                    let habit = self.habits[index]
+                    let b1 = boolName == .bool1 ? !habit.bool1 : habit.bool1
+                    let b2 = boolName == .bool2 ? !habit.bool2 : habit.bool2
+                    let b3 = boolName == .bool3 ? !habit.bool3 : habit.bool3
+                    
+                    let newHabit = HabitResult(id: habit.id,
+                                               name: habit.name,
+                                               date: habit.date,
+                                               bool1: b1,
+                                               bool2: b2,
+                                               bool3: b3)
+                    self.habits[index] = newHabit
+                    print(self.habits[index], "lfaslfasflfls¿")
+                    task = nil
+                    hendler()
+                }
+                
+            case .some(let error):
+                task = nil
+                print(error)
             }
         }
+        
+        task?.resume()
     }
 }

@@ -5,8 +5,10 @@ class HabitsListViewController: UIViewController {
     
     //MARK: - Private parametrs
     private let habitsService = HabitsService()
-    private var list: [HabitResult] = []
-    var tableView: UITableView = {
+    private var habits: [HabitResult] = []
+    private var habitsServiceObserver: NSObjectProtocol?
+    static let dateFormatter = DateFormatter()
+    let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -22,13 +24,24 @@ class HabitsListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         setupTableView()
         addContraints()
-        loadHabits()
-        
+        habitsService.fetchHabits()
+        habitsServiceObserver = NotificationCenter.default.addObserver(forName: HabitsService.didChangeNotification,
+                                                                       object: nil,
+                                                                       queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateHabitsViewTable()
+        }
     }
 }
 
 //MARK: - for methods
 private extension HabitsListViewController {
+    func updateHabitsViewTable() {
+        UIProgressHUD.dismiss()
+        habits = habitsService.habits
+        tableView.reloadData()
+    }
+    
     func addContraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -45,48 +58,26 @@ private extension HabitsListViewController {
         tableView.register(HabitsListCell.self, forCellReuseIdentifier: HabitsListCell.identifier)
     }
     
-    func loadHabits() {
-        habitsService.fetchHabits() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let list):
-                self.list = list
-                UIProgressHUD.dismiss()
-                tableView.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    func makeRequest(bool: Bool, boolName: Bools, indexPath: IndexPath) {
-        habitsService.changeCheckmark(id: indexPath.row + 1, bool: bool, boolName: boolName) {[weak self] result in
-            guard self != nil else { return }
-            UIProgressHUD.show()
-            switch result {
-            case .success:
-                UIProgressHUD.dismiss()
-            case .failure:
-                print("failure HandleHabits")
-            }
-        }
-    }
+    //    func makeRequest(bool: Bool, boolName: Bools, indexPath: IndexPath) {
+    //        habitsService.changeCheckmark(id: indexPath.row + 1, bool: bool, boolName: boolName) {[weak self] result in
+    //            guard self != nil else { return }
+    //            UIProgressHUD.show()
+    //            switch result {
+    //            case .success:
+    //                UIProgressHUD.dismiss()
+    //            case .failure:
+    //                print("failure HandleHabits")
+    //            }
+    //        }
+    //    }
     
     //MARK: - Actions Methods
-    private func configCell(cell: HabitsListCell, indexPath: IndexPath) {
-        setImage(list[indexPath.row].bool1, button: cell.buttonOne)
-        setImage(list[indexPath.row].bool2, button: cell.buttonTwo)
-        setImage(list[indexPath.row].bool3, button: cell.buttonThree)
-        let action = UIAction() { [weak self] _ in
-            guard let self = self else { return }
-//            makeRequest(bool: <#T##Bool#>, boolName: <#T##Bools#>, indexPath: <#T##IndexPath#>)
-        }
-        
-        cell.buttonOne.addAction(action, for: .touchUpInside)
-        //        cell.buttonOne.addTarget(nil, action: #selector(buttonAction), for: .touchUpInside)
-        //        cell.buttonTwo.addTarget(nil, action: #selector(buttonAction), for: .touchUpInside)
-        //        cell.buttonThree.addTarget(nil, action: #selector(buttonAction), for: .touchUpInside)
+    private func configCell(cell: HabitsListCell) {
+        guard let index = tableView.indexPath(for: cell) else { return }
+        setImage(habits[index.row].bool1, button: cell.buttonOne)
+        setImage(habits[index.row].bool2, button: cell.buttonTwo)
+        setImage(habits[index.row].bool3, button: cell.buttonThree)
+        cell.delegate = self
     }
     
     private func setImage(_ bool: Bool, button: UIButton) {
@@ -101,10 +92,58 @@ private extension HabitsListViewController {
     }
 }
 
-//MARK: - Delegats
+//MARK: - HabitlistCell delegate
+extension HabitsListViewController: HabitsListCellDelegate {
+    
+    
+    func habitsListCellDidTapButtonOne(cell: HabitsListCell) {
+        guard let index = tableView.indexPath(for: cell) else { return }
+        
+        makeRequestForButtons(cell: cell, bool: habits[index.row].bool1, boolName: Bools.bool1)
+    }
+    
+    func habitsListCellDidTapButtonTwo(cell: HabitsListCell) {
+        guard let index = tableView.indexPath(for: cell) else { return }
+        
+        makeRequestForButtons(cell: cell, bool: habits[index.row].bool2, boolName: Bools.bool2)
+    }
+    
+    func habitsListCellDidTapButtonThree(cell: HabitsListCell) {
+        guard let index = tableView.indexPath(for: cell) else { return }
+        
+        makeRequestForButtons(cell: cell, bool: habits[index.row].bool3, boolName: Bools.bool3)
+    }
+    
+    func makeRequestForButtons(cell: HabitsListCell, bool: Bool, boolName: Bools) {
+        guard let index = tableView.indexPath(for: cell) else { return }
+        let model: ActionModel?
+        switch boolName {
+            
+        case .bool1:
+            model = ActionModel(id: index.row + 1, bool1: !bool)
+        case .bool2:
+            model = ActionModel(id: index.row + 1, bool2: !bool)
+        case .bool3:
+            model = ActionModel(id: index.row + 1, bool3: !bool)
+        }
+        
+        guard let model = model else { return }
+        
+        UIProgressHUD.show()
+        habitsService.changeCheckmark(model: model,
+                                      boolName: boolName) { [weak self] in
+            guard let self = self else { return }
+            UIProgressHUD.dismiss()
+            self.habits = self.habitsService.habits
+            tableView.reloadRows(at: [index], with: .automatic)
+        }
+    }
+}
+
+//MARK: - Delegats UI Table View
 extension HabitsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        list.count
+        habits.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -113,39 +152,22 @@ extension HabitsListViewController: UITableViewDelegate, UITableViewDataSource {
         guard let habitsListCell = cell as? HabitsListCell else {
             return UITableViewCell()
         }
-        configCell(cell: habitsListCell, indexPath: indexPath)
         
-        //        if list[indexPath.row].bool1 == true {
-        //            habitsListCell.switchOne.isOn = true
-        //        } else {
-        //            habitsListCell.switchOne.isOn = false
-        //        }
-        //
-        //        if list[indexPath.row].bool2 == true {
-        //            habitsListCell.switchTwo.isOn = true
-        //        } else {
-        //            habitsListCell.switchTwo.isOn = false
-        //        }
-        //
-        //        if list[indexPath.row].bool3 == true {
-        //            habitsListCell.switchThree.isOn = true
-        //        } else {
-        //            habitsListCell.switchThree.isOn = false
-        //        }
+        habitsListCell.buttonOne.removeTarget(nil, action: nil, for: .allEvents)
+        habitsListCell.buttonTwo.removeTarget(nil, action: nil, for: .allEvents)
+        habitsListCell.buttonThree.removeTarget(nil, action: nil, for: .allEvents)
         
-//                habitsListCell.switchOne.addTarget(self, action: #selector(switchOneValueChanged), for: .valueChanged)
-        //        habitsListCell.switchTwo.addTarget(self, action: #selector(switchTwoValueChanged), for: .valueChanged)
-        //        habitsListCell.switchThree.addTarget(self, action: #selector(switchThreeValueChanged), for: .valueChanged)
+        configCell(cell: habitsListCell)
         
         habitsListCell.idLabel.text = "\(indexPath.row + 1)"
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        let date = dateFormatter.date(from: list[indexPath.row].date)
-        dateFormatter.locale = Locale(identifier: "ru_RU")
-        dateFormatter.dateFormat = "EEEE, d MMMM yyyy"
         
-        let formattedDate = dateFormatter.string(for: date)
+        HabitsListViewController.dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        let date = HabitsListViewController.dateFormatter.date(from: habits[indexPath.row].date)
+        HabitsListViewController.dateFormatter.locale = Locale(identifier: "ru_RU")
+        HabitsListViewController.dateFormatter.dateFormat = "EEEE, d MMMM yyyy"
+        
+        let formattedDate = HabitsListViewController.dateFormatter.string(for: date)
         
         habitsListCell.dateLabel.text = formattedDate
         
